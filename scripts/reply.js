@@ -50,13 +50,19 @@ module.exports = function(robot) {
   });
 
   // タスクのタイトルとして最後のメッセージのテキストを送信
-  robot.respond(/.*/, function(res) {
-    res.send({
-      title: `${lastMessageText}`,
-      closing_type: 1
-    });
+  let taskCompleted = false;
 
-    // closing_type: 1のタスクに対するHubotの応答を行わないようにする
-    robot.listeners.splice(robot.listeners.findIndex(listener => listener.toString() === 'function (msg) {') + 1, 0);
+  robot.respond(/.*/, function(res){
+    //タスクが完了していない場合の処理
+    if(!taskCompleted){
+      res.send({
+        title: `${lastMessageText}`,
+        closing_type: 1
+      });
+      //完了を管理
+      taskCompleted = true;
+    }
+    //完了している場合何も返さない
   });
-};
+
+}
