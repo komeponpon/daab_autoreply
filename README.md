@@ -1,0 +1,1 @@
+LisBのdirect用自動返信Botです。
