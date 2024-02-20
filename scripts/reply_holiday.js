@@ -24,7 +24,7 @@ module.exports = function(robot) {
     const currentDate = new Date();
 
     //土日かどうかをチェック(日0 土6)
-    if (currentDate.getDay() === 5 || currentDate.getDay() === 6){
+    if (currentDate.getDay() === 2 || currentDate.getDay() === 6){
       return true;
     }
 
@@ -55,7 +55,7 @@ module.exports = function(robot) {
             });
       //処理が完了したら連投フラグを解除
       isProcessing = false;
-        }, 0.25 * 60 * 1000); // 処理時間設定用
+        }, 0.05 * 60 * 1000); // 処理時間設定用
     }
 });
 }
