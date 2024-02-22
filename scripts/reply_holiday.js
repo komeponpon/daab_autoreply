@@ -16,7 +16,7 @@ module.exports = function(robot) {
     const currentDate = new Date();
 
     //土日かどうかをチェック（日0 土6）
-    if (currentDate.getDay() === 4 || currentDate.getDay === 6){
+    if (currentDate.getDay() === 0 || currentDate.getDay === 6){
       return true;
     }
 
