@@ -6,8 +6,10 @@ module.exports = function(robot) {
   let lastMessageText = '';
   let lastMessageTime = 0;
 
-  //組織IDの定義
-  const desiredDomain = '_94963722_822083584';
+  //組織IDと何某ルームIDの定義
+  const organizationRoomsMap = {
+    '_94963832_-1547698176' : ['_96396371_-121634816'],
+  };
 
   //公休日かどうかの判定
   function isWeekendOrHoliday(){
@@ -16,7 +18,7 @@ module.exports = function(robot) {
     const currentDate = new Date();
 
     //土日かどうかをチェック（日0 土6）
-    if (currentDate.getDay() === 0 || currentDate.getDay === 6){
+    if (currentDate.getDay() === 1 || currentDate.getDay === 6){
       return true;
     }
 
@@ -32,7 +34,6 @@ module.exports = function(robot) {
   //メッセージが受信された時の処理
   robot.hear(/.*/, function(msg){
 
-
     //受信したメッセージ情報の保存
     lastMessageText = msg.message.text;
     lastMessageTime = new Date().getTime();
@@ -42,17 +43,18 @@ module.exports = function(robot) {
     console.log(messageDomain);
 
     //公休日かつ組織IDが一致する場合の処理
-    if(isWeekendOrHoliday() && messageDomain === desiredDomain && !isProcessing){
+    if(isWeekendOrHoliday() && organizationRoomsMap.hasOwnProperty(messageDomain) && !isProcessing){
       //連投フラグを設定
       isProcessing = true;
       setTimeout(function(){
-        //何某ルームIDの配列（タスクアップ先）
-        const rooms = ['_95069676_-914358272'];
+        //タスクアップ先
+        const rooms = organizationRoomsMap[messageDomain];
         //何某ルーム以外を定義
         const filteredRooms = rooms.filter(roomId => roomId !== msg.message.room);
         //何某ルーム以外には返信処理
         filteredRooms.forEach(room =>{
           msg.reply('いつも大変お世話になっております。\n本日公休日となりますので、\n翌営業日に担当よりご連絡致します。');
+          //何某にはタスクアップ
           robot.send({room: room},{
             title: lastMessageText,
             closing_type: 0
@@ -60,7 +62,7 @@ module.exports = function(robot) {
         });
       //処理が完了したらフラグを解除
       isProcessing = false;
-      }, 2 * 60 * 1000); //処理時間を設定(テストのため3秒)
+      }, 0.05 * 60 * 1000); //処理時間を設定
     }
   });
 }
