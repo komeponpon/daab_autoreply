@@ -54,7 +54,7 @@ module.exports = function(robot) {
         const filteredRooms = rooms.filter(roomId => roomId !== msg.message.room);
         //何某ルーム以外には返信処理
         filteredRooms.forEach(room =>{
-          msg.reply('いつも大変お世話になっております。\n本日公休日となりますので、\n翌営業日に担当よりご連絡致します。');
+          msg.reply('さん\nいつも大変お世話になっております。\n本日公休日となりますので、\n翌営業日に担当よりご連絡致します。');
           robot.send({room: room},{
             title: lastMessageText,
             closing_type: 0
