@@ -58,7 +58,7 @@ module.exports = function(robot) {
           });
         });
         isProcessing = false;
-      }, 0.05 * 60 * 1000);
+      }, 2 * 60 * 1000);
     }
 }
 
@@ -70,11 +70,11 @@ module.exports = function(robot) {
   });
 
   // ファイルが添付されたメッセージの受信時の処理
-  robot.on('file', function(msg) {
+  robot.hear('file', function(msg) {
     handleReceivedMessage(msg, true);
   });
 
-  robot.on('files', function(msg) {
+  robot.hear('files', function(msg) {
     msg.json.files.forEach(file => {
       handleReceivedMessage(msg, true);
     });
