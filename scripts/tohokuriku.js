@@ -26,6 +26,7 @@ module.exports = function(robot) {
   // メッセージ受信時の共通処理を関数化
   function handleReceivedMessage(msg, isFile = false) {
     let messageText;
+    const senderName = msg.message.user.name;
 
     if (isFile) {
         // ここで、msg.jsonが文字列化されたJSONであるかどうかを確認します。
@@ -44,7 +45,8 @@ module.exports = function(robot) {
         messageText = msg.message.text;
     }
 
-    lastMessageText = messageText;
+    // 送信者名とメッセージを結合
+    lastMessageText = `${senderName}: ${messageText}`;
     lastMessageTime = new Date().getTime();
 
     const messageDomain = msg.message.rooms[msg.message.room].domain.id;
@@ -64,9 +66,7 @@ module.exports = function(robot) {
         isProcessing = false;
       }, 2 * 60 * 1000);
     }
-}
-
-
+  }
 
   // テキストメッセージ受信時の処理
   robot.hear(/.*/, function(msg) {
