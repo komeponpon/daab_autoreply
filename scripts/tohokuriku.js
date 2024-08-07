@@ -14,7 +14,7 @@ module.exports = function(robot) {
   let isProcessing = false;
 
   //追加の休日を設定する配列
-  const additionalHolidays = ['2024-08-07','2024-08-14','2024-08-15','2024-08-16','2024-08-14','2024-12-30','2025-01-04','2024-01-05'];
+  const additionalHolidays = ['2024-08-13','2024-08-14','2024-08-15','2024-08-16','2024-08-14','2024-12-30','2025-01-04','2024-01-05'];
 
   // 公休日かどうかの判定関数
   function isWeekendOrHoliday(){
@@ -73,7 +73,7 @@ module.exports = function(robot) {
           });
         });
         isProcessing = false;
-      }, 0.05 * 60 * 1000);
+      }, 2 * 60 * 1000);
     }
   }
 
