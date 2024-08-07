@@ -13,6 +13,9 @@ module.exports = function(robot) {
 
   let isProcessing = false;
 
+  //追加の休日を設定する配列
+  const additionalHolidays = ['2024-08-07','2024-08-14','2024-08-15','2024-08-16','2024-08-14','2024-12-30','2025-01-04','2024-01-05'];
+
   // 公休日かどうかの判定関数
   function isWeekendOrHoliday(){
     const currentDate = new Date();
@@ -20,7 +23,13 @@ module.exports = function(robot) {
       return true;
     }
     const holidays = holidayJp.between(currentDate, currentDate);
-    return holidays.length > 0;
+    const isHoliday = holidays.length > 0;
+
+    //追加の休日を判定
+    const formattedDate = currentDate.toISOString().split('T')[0];
+    const isAdditionalHoliday = additionalHolidays.includes(formattedDate);
+
+    return isHoliday || isAdditionalHoliday
   }
 
   // メッセージ受信時の共通処理を関数化
@@ -64,7 +73,7 @@ module.exports = function(robot) {
           });
         });
         isProcessing = false;
-      }, 2 * 60 * 1000);
+      }, 0.05 * 60 * 1000);
     }
   }
 
